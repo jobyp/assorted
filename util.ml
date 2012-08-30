@@ -54,17 +54,17 @@ let range n =
     else range_aux (i - 1) (i :: lst)
   in range_aux (n - 1) []
 
-let binary_search a x =
-  let rec bs_aux i j =
-    if i > j then -1
+let bin_search a x =
+  let rec search lo hi =
+    if lo > hi then -1
     else 
-      let m = (i + j) / 2 in
-      if a.(m) = x then m
-      else if a.(m) < x then
-        bs_aux (m + 1) j
-      else bs_aux i (m - 1)  (* a.(m) > x *)
-  in
-  bs_aux 0 (Array.length a - 1)
+      let mid = lo + (hi - lo) / 2 in
+      if a.(mid) < x
+      then search (mid + 1) hi
+      else if a.(mid) > x 
+      then search lo (mid - 1)
+      else mid in
+  search 0 (Array.length a - 1)
 
 let time_it action arg = 
   let t1 = Sys.time () in
@@ -85,5 +85,15 @@ let rec read_line () =
     then read_line ()
     else Some line
   with End_of_file -> None 
+
+let seq_search a x =
+  let n = Array.length a in
+  let rec loop i = 
+    if i < n 
+    then
+       if a.(i) = x then i else loop (i + 1) 
+    else
+      -1 in
+  loop 0
 
 (* end of utility functions *)

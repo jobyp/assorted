@@ -1,0 +1,7 @@
+TABLE ADT
+---------
+
+-> table cannot contain duplicates.
+-> nodes can be visited in ascending or descending order.
+
+   
