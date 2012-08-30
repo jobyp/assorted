@@ -150,3 +150,30 @@ let rec delete_by_merge bst x =
           | Empty -> l
           | Node(z, Empty, r) -> Node(z, l, r)
           | Node(z, l1, r) -> failwith "bst delete merge: internal error" 
+
+
+let rec visit_inorder bst f = 
+  match bst with
+    | Empty -> ()
+    | Node(x, l, r) -> 
+	begin
+	  visit_inorder l f;
+	  ignore(f x);
+	  visit_inorder r f
+	end
+
+let rec to_list bst = 
+  match bst with
+    | Empty -> []
+    | Node(x, l, r) -> (to_list l) @ (x :: to_list r)
+	
+
+let from_list lst = 
+  let rec f_list l bst =
+    match l with
+      | [] -> bst
+      | (x::xs) -> f_list xs (insert bst x) in 
+    f_list lst Empty
+      
+
+      

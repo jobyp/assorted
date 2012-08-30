@@ -1,0 +1,7 @@
+#load "unix.cma";;
+#directory "_build";;
+#load "util.cmo";;
+#load "jsort.cmo";;
+#load "bst.cmo" ;;
+
+

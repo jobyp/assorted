@@ -1,4 +1,4 @@
 #!/bin/bash
 
 ocamlbuild -classic-display -clean
-rm -vf *~
+rm -vf *~ .ocamlinit~

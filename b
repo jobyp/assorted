@@ -6,4 +6,6 @@ ocamlbuild -classic-display test_stk.byte
 ocamlbuild -classic-display test_stk.native
 ocamlbuild -classic-display test_que.byte
 ocamlbuild -classic-display test_que.native
+ocamlbuild -classic-display test_bst.byte
+ocamlbuild -classic-display test_bst.native
 
