@@ -188,3 +188,12 @@ let rec to_vine bst =
 	let vine = insert (to_vine r) x in
 	let vine_l = to_vine l in
 	  insert_tree_at_the_leftmost_node vine vine_l
+
+let count bst = 
+  let rec count_aux bst c =
+    match bst with
+      | Empty -> c
+      | Node(x, l, r) -> count_aux l (count_aux r (c + 1)) 
+  in
+  count_aux bst 0
+

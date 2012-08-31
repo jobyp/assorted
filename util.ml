@@ -96,4 +96,25 @@ let seq_search a x =
       -1 in
   loop 0
 
+let rec log2 n = 
+  if n = 1
+  then 0
+  else 1 + log2 (n / 2)
+
+let odd n = (n mod 2 = 1)
+let even n = (n mod 2 = 0)
+
+let rec expn x n  = 
+  if n <= 0
+  then 1
+  else if even n 
+  then 
+    let a = expn x (n / 2) in
+    a * a
+  else
+    x * expn x (n - 1)
+
+let exp2 n = expn 2 n
+
+
 (* end of utility functions *)

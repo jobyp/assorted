@@ -8,3 +8,7 @@ val time_it : ('a -> 'b) -> 'a -> float * 'b
 val read_line : unit -> string option
 val random_int : int -> int
 val seq_search : 'a array -> 'a -> int
+val log2 : int -> int
+val odd: int -> bool
+val even: int -> bool
+val exp2: int -> int
