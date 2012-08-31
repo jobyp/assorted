@@ -176,4 +176,15 @@ let from_list lst =
     f_list lst Empty
       
 
-      
+let rec insert_tree_at_the_leftmost_node root bst =
+  match root with
+    | Empty -> bst
+    | Node(x, l, r) -> Node(x, insert_tree_at_the_leftmost_node l bst, r)
+
+let rec to_vine bst =
+  match bst with
+    | Empty -> bst
+    | Node(x, l, r) -> 
+	let vine = insert (to_vine r) x in
+	let vine_l = to_vine l in
+	  insert_tree_at_the_leftmost_node vine vine_l
