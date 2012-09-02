@@ -173,7 +173,7 @@ let from_list lst =
     match l with
       | [] -> bst
       | (x::xs) -> f_list xs (insert bst x) in 
-    f_list lst Empty
+  f_list lst Empty
       
 
 let rec insert_tree_at_the_leftmost_node root bst =
@@ -181,14 +181,14 @@ let rec insert_tree_at_the_leftmost_node root bst =
     | Empty -> bst
     | Node(x, l, r) -> Node(x, insert_tree_at_the_leftmost_node l bst, r)
 
-let rec to_vine bst =
+let rec tree_to_vine bst =
   match bst with
     | Empty -> bst
     | Node(x, l, r) -> 
-	let vine = insert (to_vine r) x in
-	let vine_l = to_vine l in
-	  insert_tree_at_the_leftmost_node vine vine_l
-
+	let vine = insert (tree_to_vine r) x in
+	let vine_l = tree_to_vine l in
+	insert_tree_at_the_leftmost_node vine vine_l
+            
 let count bst = 
   let rec count_aux bst c =
     match bst with
@@ -197,3 +197,56 @@ let count bst =
   in
   count_aux bst 0
 
+let rec compress_vine bst n =
+  if n = 0
+  then bst
+  else
+    match bst with
+      | Empty -> Empty
+      | Node(_, Empty, _) -> bst
+      | Node(_, _, _) ->
+        match rotate_right bst with
+          | Empty -> failwith "bst compress_vine: internal error"
+          | Node(x, l, r) -> Node(x, compress_vine l (n - 1), r)
+          
+let rec print_nodes_at_level bst n =
+  match bst with
+    | Empty -> ()
+    | Node(x, l, r) -> 
+      if n = 0
+      then 
+        print_string ((string_of_int x) ^ " ")
+      else
+        (print_nodes_at_level l (n - 1);
+         print_nodes_at_level r (n - 1))
+      
+let print_tree bst =
+  let h = height bst in
+  List.iter (fun h -> (print_nodes_at_level bst h; print_newline ())) (Util.range h)
+
+
+let normalise_vine bst c =
+  let lg2 = Util.log2 c in
+  let ex2 = Util.exp2 (lg2 + 1) in
+  if c = (ex2 - 1) then  bst
+  else
+      let new_ex2 = ex2 / 2 in
+      let diff = c - (new_ex2 - 1) in
+      compress_vine bst diff
+
+let vine_to_tree bst =
+  let c = count bst in
+  let n_bst = normalise_vine bst c in
+  let h = height n_bst in
+  let rec compress bst h = 
+    if h = 0
+    then bst
+    else compress (compress_vine bst h) (h / 2) in
+  compress n_bst (h / 2)
+
+let balance bst = 
+  let v_bst = tree_to_vine bst in
+  match v_bst with
+    | Empty -> Empty
+    | _ -> vine_to_tree v_bst
+     

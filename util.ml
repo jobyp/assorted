@@ -97,9 +97,13 @@ let seq_search a x =
   loop 0
 
 let rec log2 n = 
-  if n = 1
-  then 0
-  else 1 + log2 (n / 2)
+  let rec lg2 n = 
+    if n = 1
+    then 0
+    else 1 + lg2 (n / 2) in
+  if n < 1
+  then failwith ("log2: invalid argument " ^ (string_of_int n))
+  else lg2 n
 
 let odd n = (n mod 2 = 1)
 let even n = (n mod 2 = 0)
