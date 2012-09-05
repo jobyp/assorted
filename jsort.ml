@@ -96,3 +96,33 @@ let merge_sort a =
       let mid = lo + (hi - lo) / 2 in
       (sort lo mid; sort (mid + 1) hi; merge a b lo mid hi) in
   sort 0 (Array.length a - 1)
+
+let print_array a lo hi = 
+  for i = lo to hi 
+  do
+    print_string ((string_of_int a.(i)) ^ " ")
+  done;
+  print_newline ()
+
+let merge_sort_i a = 
+  let b = Array.copy a in
+  let n = Array.length a - 1 in
+  let rec sort i step = 
+    let lo = (if i > n then n else i) in
+    let mid = (let j = i + step - 1 in if j > n then n else j) in
+    let hi = (let j = i + 2 * step - 1 in if j > n then n else j) in
+    
+    if lo = hi then ()
+    else 
+      begin
+        merge a b lo mid hi; 
+        sort (i + 2 * step) step;
+      end in
+  let rec loop step = 
+    if step > n then ()
+    else (sort 0 step; loop (step * 2)) in
+  if n < 0 (* empty array *)
+  then ()
+  else loop 1
+
+         
